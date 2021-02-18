@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess The Number</title>
+    <style>
+        #wrapper {
+            width: 1000px;
+            margin: auto;
+            text-align: center;
+        }
+        #response-box {
+            color: white;
+            width: 300px;
+            height: 300px;
+            margin: auto;
+            background-color: {{color}};
+        }
+        #response-text {
+            line-height: 300px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <main id="wrapper">
+        <h1>Welcome to the Great Number Game!</h1>
+        <p>I am thinking of a number between 1 and 100</p>
+        <p>Take a guess</p>
+        <p>Guesses Remaining: {{guesses_remaining}}</p>
+        <p>Guesses Made: {{guesses}}</p>
+        {% if response %}
+        <div id="response-box">
+            <h3 id="response-text">{{response}}</h3>
+            {% if guesses_remaining == 0 or correct %}
+            <form action="/" method="GET">
+                <input type="submit" value="Reset" >
+            </form>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if guesses_remaining > 0 and not correct %}
+        <form action="/guess" method="POST">
+            {% csrf_token %}
+            <input type="number" name="guess">
+            <input type="submit" value="Submit" >
+        </form>
+
+        {% endif %}
+    </main>
+</body>
+</html>
